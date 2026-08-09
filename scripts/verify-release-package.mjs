@@ -57,7 +57,7 @@ const expectedFiles = [
   "README.md",
 ];
 const expectedDependencies = {
-  "@walk-me-through-code/contracts": "0.1.1",
+  "@walk-me-through-code/contracts": "0.1.2",
   zod: "4.4.3",
 };
 const expectedDevDependencies = {
@@ -195,7 +195,7 @@ async function stopInstalledViewer(child) {
 }
 
 assert.equal(packageJson.name, "@hypertectonic/walk-me-through-the-code");
-assert.equal(packageJson.version, "0.1.1");
+assert.equal(packageJson.version, "0.1.2");
 assert.equal(
   packageJson.description,
   "Interactive local code walkthroughs with source-linked explanations and agent-guided follow-up",
@@ -269,27 +269,31 @@ for (const workspace of ["cli", "contracts", "viewer"]) {
 
 assert.deepEqual(contractsPackage.files, ["dist/*.js"]);
 assert.deepEqual(contractsPackage.exports, { ".": { import: "./dist/index.js" } });
-assert.deepEqual(contractsPackage.peerDependencies, { zod: "4.4.3" });
+assert.equal(Object.hasOwn(contractsPackage, "peerDependencies"), false);
 assert.equal(Object.hasOwn(contractsPackage, "dependencies"), false);
 assert.equal(compatibility.skillVersion, packageJson.version);
 assert.deepEqual(compatibility.supportedRuntimeVersions, [packageJson.version]);
 assert.match(skillInstructions, /Use only when the user explicitly invokes or names/u);
 assert.doesNotMatch(skillInstructions, /walk through, explain, trace, understand/u);
 assert.match(codexSkillMetadata, /allow_implicit_invocation: false/u);
-assert.match(cliSource, /const VERSION = "0\.1\.1";/u);
-assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.1"\] as const;/u);
+assert.match(cliSource, /const VERSION = "0\.1\.2";/u);
+assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.2"\] as const;/u);
 
 const temporaryRoot = await mkdtemp(join(tmpdir(), "wmtc-public-package-"));
 try {
   const packDirectory = join(temporaryRoot, "pack");
   const installPrefix = join(temporaryRoot, "install");
+  const globalNodeSearchRoot = process.platform === "win32"
+    ? installPrefix
+    : join(installPrefix, "lib");
+  const globalModulesDirectory = join(globalNodeSearchRoot, "node_modules");
   const npmCache = join(temporaryRoot, "npm-cache");
   const isolatedHome = join(temporaryRoot, "home");
   const repositoryRoot = join(temporaryRoot, "repository");
   const stateRoot = join(temporaryRoot, "state");
   await Promise.all([
     mkdir(packDirectory),
-    mkdir(installPrefix),
+    mkdir(globalNodeSearchRoot, { recursive: true }),
     mkdir(isolatedHome),
     mkdir(repositoryRoot),
   ]);
@@ -365,6 +369,7 @@ try {
     [
       ...npm.arguments,
       "install",
+      "--global",
       "--ignore-scripts",
       "--no-audit",
       "--no-fund",
@@ -377,8 +382,7 @@ try {
   assert.equal(installation.status, 0, installation.stderr || installation.stdout);
 
   const installedPackageRoot = join(
-    installPrefix,
-    "node_modules",
+    globalModulesDirectory,
     ...packageJson.name.split("/"),
   );
   const installedManifest = JSON.parse(await readFile(
@@ -390,7 +394,7 @@ try {
   assert.deepEqual(installedManifest.exports, {});
 
   const installedZod = JSON.parse(await readFile(
-    join(installPrefix, "node_modules", "zod", "package.json"),
+    join(installedPackageRoot, "node_modules", "zod", "package.json"),
     "utf8",
   ));
   assert.equal(installedZod.version, packageJson.dependencies.zod);
@@ -424,7 +428,7 @@ try {
   const publicImport = spawnSync(
     process.execPath,
     ["--input-type=module", "--eval", `await import(${JSON.stringify(packageJson.name)})`],
-    { cwd: installPrefix, encoding: "utf8", env: environment },
+    { cwd: globalNodeSearchRoot, encoding: "utf8", env: environment },
   );
   assert.notEqual(publicImport.status, 0, "the CLI-only package unexpectedly supports root import");
   assert.match(publicImport.stderr, /ERR_PACKAGE_PATH_NOT_EXPORTED/u);

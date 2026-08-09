@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 - 2026-08-09
+
+- Fix global npm installation so the required Zod runtime dependency is
+  installed correctly.
+
 ## 0.1.1 - 2026-08-09
 
 - Add an interactive local Viewer for source-backed code walkthroughs.
