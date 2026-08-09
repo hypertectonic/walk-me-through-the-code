@@ -1,6 +1,6 @@
 {
   "name": "@walk-me-through-code/contracts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "private": true,
   "files": [
@@ -13,8 +13,5 @@
   },
   "scripts": {
     "build": "tsc --build"
-  },
-  "peerDependencies": {
-    "zod": "4.4.3"
   }
 }
