@@ -99,7 +99,7 @@ upgrading.
 For a Walkthrough Artifact you already have, open it directly with:
 
 ```sh
-wmtc open path/to/walkthrough.json --skill-version 0.1.1
+wmtc open path/to/walkthrough.json --skill-version 0.1.2
 ```
 
 ## Installation
@@ -124,7 +124,7 @@ node -e "const [major, minor] = process.versions.node.split('.').map(Number); if
 corepack npm --version
 corepack npm ci
 corepack npm pack
-corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.1.tgz
+corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.2.tgz
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -135,12 +135,12 @@ Replace `codex` in the last two commands with `claude-code` or `opencode` for
 that host. Do not use `sudo`. If the global npm prefix is not writable, stop
 and configure a user-writable npm global prefix before retrying.
 
-### Install from npm when 0.1.1 is published
+### Install from npm
 
 The later registry route is shorter:
 
 ```sh
-corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.1
+corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.2
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -185,7 +185,7 @@ that policy before sharing sensitive source.
 - Codex, Claude Code, or OpenCode
 - A local browser for the Viewer
 
-Runtime `0.1.1` supports skill version `0.1.1` only. Keep the runtime and skill
+Runtime `0.1.2` supports skill version `0.1.2` only. Keep the runtime and skill
 versions paired.
 
 ## Updating and troubleshooting
@@ -193,7 +193,7 @@ versions paired.
 For a newer source release, check out that release and repeat `corepack npm ci`,
 `corepack npm pack`, and the exact tarball installation. Then run `wmtc compatibility`
 and repeat the concrete install and verify commands for your host. Version
-0.1.1 deliberately does not overwrite an existing skill, including an older
+0.1.2 deliberately does not overwrite an existing skill, including an older
 managed installation. If it reports `SKILL_OUTDATED`, preserve the destination
 and follow the newer release's migration instructions.
 
