@@ -1,0 +1,89 @@
+{
+  "name": "@hypertectonic/walk-me-through-the-code",
+  "version": "0.1.1",
+  "description": "Interactive local code walkthroughs with source-linked explanations and agent-guided follow-up",
+  "license": "MIT",
+  "keywords": [
+    "code-comprehension",
+    "developer-tools",
+    "ai-agent",
+    "walkthrough",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hypertectonic/walk-me-through-the-code.git"
+  },
+  "homepage": "https://github.com/hypertectonic/walk-me-through-the-code#readme",
+  "bugs": {
+    "url": "https://github.com/hypertectonic/walk-me-through-the-code/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "private": false,
+  "workspaces": [
+    "packages/*"
+  ],
+  "bin": {
+    "wmtc": "packages/cli/dist/index.js"
+  },
+  "exports": {},
+  "files": [
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "assets/walk-me-through-the-code-banner.webp",
+    "packages/cli/dist/*.js",
+    "packages/cli/dist/session/*.js",
+    "packages/viewer/dist",
+    "skills/walk-me-through-code",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "corepack npm run build --workspaces --if-present",
+    "build:contracts": "corepack npm run build --workspace @walk-me-through-code/contracts",
+    "prelint": "corepack npm run build:contracts",
+    "lint": "eslint .",
+    "typecheck": "tsc --build --pretty false",
+    "prepack": "corepack npm run build",
+    "prepublishOnly": "corepack npm run verify:release",
+    "verify:release": "corepack npm run build && node scripts/verify-release-package.mjs"
+  },
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.15.0 <25",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "error"
+    }
+  },
+  "packageManager": "npm@12.0.2",
+  "allowScripts": {
+    "fsevents": false
+  },
+  "dependencies": {
+    "@walk-me-through-code/contracts": "0.1.1",
+    "zod": "4.4.3"
+  },
+  "bundleDependencies": [
+    "@walk-me-through-code/contracts"
+  ],
+  "overrides": {
+    "brace-expansion": "5.0.9"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.3",
+    "eslint": "10.7.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.64.0"
+  }
+}

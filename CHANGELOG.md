@@ -1,0 +1,11 @@
+# Changelog
+
+## 0.1.1 - 2026-08-09
+
+- Add an interactive local Viewer for source-backed code walkthroughs.
+- Provide explicit skill invocation and managed installation for Codex, Claude
+  Code, and OpenCode.
+- Add durable local questions, answers, learning prompts, and saved sessions.
+- Keep the Viewer loopback-only by default with explicit trusted-network
+  sharing.
+- Validate artifacts and agent messages with internal versioned runtime schemas.

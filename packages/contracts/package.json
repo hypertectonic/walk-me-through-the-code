@@ -1,0 +1,20 @@
+{
+  "name": "@walk-me-through-code/contracts",
+  "version": "0.1.1",
+  "type": "module",
+  "private": true,
+  "files": [
+    "dist/*.js"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "peerDependencies": {
+    "zod": "4.4.3"
+  }
+}

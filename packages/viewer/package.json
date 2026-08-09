@@ -1,0 +1,15 @@
+{
+  "name": "@walk-me-through-code/viewer",
+  "version": "0.1.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@walk-me-through-code/contracts": "0.1.1"
+  },
+  "devDependencies": {
+    "vite": "8.2.0"
+  }
+}

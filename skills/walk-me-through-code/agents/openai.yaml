@@ -1,0 +1,7 @@
+interface:
+  display_name: "Walk Me Through the Code"
+  short_description: "Understand a focused flow in your codebase"
+  default_prompt: "Use $walk-me-through-code to explain how this project behaves."
+
+policy:
+  allow_implicit_invocation: false
