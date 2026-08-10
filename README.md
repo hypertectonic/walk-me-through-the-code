@@ -1,6 +1,6 @@
 # Walk Me Through the Code
 
-![Walk Me Through the Code: source code becoming an interactive walkthrough](assets/walk-me-through-the-code-banner.webp)
+![Walk Me Through the Code: a guided path through real code](assets/walk-me-through-the-code-banner.svg)
 
 Walk Me Through the Code helps you understand unfamiliar code without turning
 the explanation into a wall of text or static documentation.
@@ -11,6 +11,16 @@ the current working files, builds a source-backed walkthrough, and opens it in
 a local browser Viewer. You can move through the behavior step by step, inspect
 the exact source behind each claim, and keep asking questions from inside the
 walkthrough.
+
+## Who is it for?
+
+Walk Me Through the Code is for developers who want to quickly understand an
+unfamiliar codebase, investigate a specific part of the code, or get a clear
+explanation of how a feature works. It is also for people who are not
+developers but want to learn how to read code and understand how software works
+while building their own projects with coding agents. You do not need to
+understand the whole codebase first. Start with the part that matters, follow
+the explanation, and ask questions as you go.
 
 It is useful when you are:
 
@@ -99,7 +109,7 @@ upgrading.
 For a Walkthrough Artifact you already have, open it directly with:
 
 ```sh
-wmtc open path/to/walkthrough.json --skill-version 0.1.3
+wmtc open path/to/walkthrough.json --skill-version 0.1.4
 ```
 
 ## Installation
@@ -116,7 +126,7 @@ wmtc open path/to/walkthrough.json --skill-version 0.1.3
 For the shortest installation path, install the published package:
 
 ```sh
-corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.3
+corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.4
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -124,6 +134,18 @@ wmtc skill verify --host codex
 ```
 
 Choose exactly one supported host value: `codex`, `claude-code`, or `opencode`.
+
+Do not use `sudo`. If npm reports that its global prefix is not writable,
+configure a user-level prefix and retry the installation:
+
+```sh
+mkdir -p "$HOME/.local"
+corepack npm config set prefix "$HOME/.local"
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Add the `export` line to your shell's startup file so `wmtc` remains available
+in new terminals.
 
 ### Install from a source checkout
 
@@ -138,7 +160,7 @@ node -e "const [major, minor] = process.versions.node.split('.').map(Number); if
 corepack npm --version
 corepack npm ci
 corepack npm pack
-corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.3.tgz
+corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.4.tgz
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -184,7 +206,7 @@ that policy before sharing sensitive source.
 - Codex, Claude Code, or OpenCode
 - A local browser for the Viewer
 
-Runtime `0.1.3` supports skill version `0.1.3` only. Keep the
+Runtime `0.1.4` supports skill version `0.1.4` only. Keep the
 runtime and skill versions paired.
 
 ## Updating and troubleshooting
@@ -192,7 +214,7 @@ runtime and skill versions paired.
 For a newer source release, check out that release and repeat `corepack npm ci`,
 `corepack npm pack`, and the exact tarball installation. Then run `wmtc compatibility`
 and repeat the concrete install and verify commands for your host. Version
-0.1.3 deliberately does not overwrite an existing skill, including an older
+0.1.4 deliberately does not overwrite an existing skill, including an older
 managed installation. If it reports `SKILL_OUTDATED`, preserve the destination
 and follow the newer release's migration instructions.
 

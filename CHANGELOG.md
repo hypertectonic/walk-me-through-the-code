@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.4 - 2026-08-10
+
+- Refresh the public project presentation with a new banner and clearer
+  guidance about who the walkthrough experience is for.
+- Document safe global npm installation for users without a writable system
+  prefix.
+- Add a Viewer tab icon and verify that it is present in the packaged release.
+
 ## 0.1.3 - 2026-08-10
 
 - Make npm installation the primary documented installation route.

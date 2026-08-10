@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="640" viewBox="0 0 1600 640" role="img" aria-labelledby="title desc">
+  <title id="title">Walk Me Through the Code - guided path</title>
+  <desc id="desc">A banner depicting an illuminated path through source files, explanation steps, and a follow-up question.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="80" y1="0" x2="1530" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9E9"/>
+      <stop offset="0.48" stop-color="#F4EDDC"/>
+      <stop offset="1" stop-color="#E0F0E7"/>
+    </linearGradient>
+    <linearGradient id="path2" x1="570" y1="470" x2="1500" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ED936A"/>
+      <stop offset="0.52" stop-color="#D4AD48"/>
+      <stop offset="1" stop-color="#2AA378"/>
+    </linearGradient>
+    <filter id="shadow2" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#574831" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="640" rx="30" fill="url(#bg2)"/>
+  <path d="M0 538C250 475 345 585 560 522c260-77 420-22 610-104 173-74 287-179 430-211v433H0Z" fill="#FFFFFF" opacity=".38"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <g transform="translate(78 76)">
+      <text font-size="18" font-weight="760" letter-spacing="2.6" fill="#A15B3C">A GUIDED PATH THROUGH REAL CODE</text>
+      <text y="84" font-size="72" font-weight="780" letter-spacing="-3.8" fill="#263B31">Walk Me Through</text>
+      <text y="160" font-size="72" font-weight="780" letter-spacing="-3.8" fill="#263B31">the Code</text>
+      <text y="215" font-size="23" font-weight="520" fill="#5C6E63">Start with a question. Keep every step tied to source.</text>
+    </g>
+
+    <g transform="translate(0 35)">
+      <path d="M380 506C535 506 562 505 653 505c112 0 110 0 218 0 112 0 121-179 237-179 118 0 123 102 225 102 93 0 87-189 181-189" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" opacity=".8"/>
+      <path d="M380 506C535 506 562 505 653 505c112 0 110 0 218 0 112 0 121-179 237-179 118 0 123 102 225 102 93 0 87-189 181-189" fill="none" stroke="url(#path2)" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(380 335) rotate(-4)" filter="url(#shadow2)">
+      <rect width="235" height="164" rx="20" fill="#1D2E29"/>
+      <rect width="235" height="38" rx="20" fill="#283D36"/>
+      <path d="M0 38h235" stroke="#3B534B"/>
+      <circle cx="20" cy="19" r="4" fill="#ED936A"/>
+      <circle cx="34" cy="19" r="4" fill="#EFC968"/>
+      <circle cx="48" cy="19" r="4" fill="#62C99A"/>
+      <g fill="#7FA297">
+        <rect x="22" y="61" width="112" height="6" rx="3"/>
+        <rect x="36" y="80" width="166" height="6" rx="3"/>
+        <rect x="36" y="99" width="132" height="6" rx="3"/>
+      </g>
+      <rect x="20" y="112" width="195" height="30" rx="8" fill="#3C705D"/>
+      <rect x="36" y="124" width="144" height="6" rx="3" fill="#C4F2DD"/>
+      <text x="117.5" y="197" text-anchor="middle" font-size="14" font-weight="760" letter-spacing=".35" fill="#725541">01 · TRACE THE PATH</text>
+    </g>
+
+    <g transform="translate(830 381) rotate(3)" filter="url(#shadow2)">
+      <rect width="260" height="170" rx="20" fill="#FFFFFF"/>
+      <rect x="20" y="20" width="48" height="48" rx="15" fill="#FFF0C9"/>
+      <text x="38" y="52" font-size="22" font-weight="800" fill="#A86C13">2</text>
+      <text x="82" y="40" font-size="12" font-weight="780" letter-spacing=".25" fill="#946D20">EXECUTION STEP</text>
+      <text x="82" y="63" font-size="16" font-weight="720" fill="#2E4138">The request enters</text>
+      <rect x="20" y="92" width="204" height="7" rx="3.5" fill="#CBD7D1"/>
+      <rect x="20" y="112" width="166" height="7" rx="3.5" fill="#CBD7D1"/>
+      <rect x="20" y="132" width="218" height="7" rx="3.5" fill="#6DBB99"/>
+      <text x="130" y="203" text-anchor="middle" font-size="14" font-weight="760" letter-spacing=".35" fill="#725541">02 · STEP THROUGH THE FLOW</text>
+    </g>
+
+    <g transform="translate(1190 296) rotate(-3)" filter="url(#shadow2)">
+      <rect width="260" height="176" rx="20" fill="#FFFFFF"/>
+      <text x="22" y="36" font-size="13" font-weight="800" fill="#28775C">SELECTED CONTEXT</text>
+      <rect x="22" y="54" width="216" height="42" rx="11" fill="#E2F3EB"/>
+      <text x="36" y="80" font-size="13" font-weight="680" fill="#2A5D4B">router.ts · lines 42-49</text>
+      <text x="22" y="127" font-size="16" font-weight="680" fill="#2D3E37">Why does this branch</text>
+      <text x="22" y="149" font-size="16" font-weight="680" fill="#2D3E37">return early?</text>
+      <text x="130" y="209" text-anchor="middle" font-size="14" font-weight="760" letter-spacing=".35" fill="#725541">03 · ASK THE NEXT QUESTION</text>
+    </g>
+
+    <g transform="translate(0 35)" fill="#FFFFFF" stroke-width="6">
+      <circle cx="380" cy="506" r="14" stroke="#ED936A"/>
+      <circle cx="653" cy="505" r="14" stroke="#D8B14F"/>
+      <circle cx="1108" cy="326" r="14" stroke="#65B28F"/>
+      <circle cx="1514" cy="239" r="14" stroke="#2AA378"/>
+    </g>
+  </g>
+</svg>

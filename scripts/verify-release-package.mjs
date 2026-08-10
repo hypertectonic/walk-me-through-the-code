@@ -49,7 +49,7 @@ const expectedScripts = {
 const expectedFiles = [
   "LICENSE",
   "THIRD_PARTY_NOTICES.md",
-  "assets/walk-me-through-the-code-banner.webp",
+  "assets/walk-me-through-the-code-banner.svg",
   "packages/cli/dist/*.js",
   "packages/cli/dist/session/*.js",
   "packages/viewer/dist",
@@ -57,7 +57,7 @@ const expectedFiles = [
   "README.md",
 ];
 const expectedDependencies = {
-  "@walk-me-through-code/contracts": "0.1.3",
+  "@walk-me-through-code/contracts": "0.1.4",
   zod: "4.4.3",
 };
 const expectedDevDependencies = {
@@ -71,9 +71,10 @@ const requiredPackageFiles = [
   "LICENSE",
   "THIRD_PARTY_NOTICES.md",
   "README.md",
-  "assets/walk-me-through-the-code-banner.webp",
+  "assets/walk-me-through-the-code-banner.svg",
   "packages/cli/dist/index.js",
   "packages/viewer/dist/index.html",
+  "packages/viewer/dist/favicon.svg",
   "skills/walk-me-through-code/SKILL.md",
   "skills/walk-me-through-code/compatibility.json",
   "skills/walk-me-through-code/agents/openai.yaml",
@@ -195,7 +196,7 @@ async function stopInstalledViewer(child) {
 }
 
 assert.equal(packageJson.name, "@hypertectonic/walk-me-through-the-code");
-assert.equal(packageJson.version, "0.1.3");
+assert.equal(packageJson.version, "0.1.4");
 assert.equal(
   packageJson.description,
   "Interactive local code walkthroughs with source-linked explanations and agent-guided follow-up",
@@ -276,8 +277,8 @@ assert.deepEqual(compatibility.supportedRuntimeVersions, [packageJson.version]);
 assert.match(skillInstructions, /Use only when the user explicitly invokes or names/u);
 assert.doesNotMatch(skillInstructions, /walk through, explain, trace, understand/u);
 assert.match(codexSkillMetadata, /allow_implicit_invocation: false/u);
-assert.match(cliSource, /const VERSION = "0\.1\.3";/u);
-assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.3"\] as const;/u);
+assert.match(cliSource, /const VERSION = "0\.1\.4";/u);
+assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.4"\] as const;/u);
 
 const temporaryRoot = await mkdtemp(join(tmpdir(), "wmtc-public-package-"));
 try {
@@ -492,6 +493,13 @@ try {
     assert.equal(opened.result.ok, true);
     assert.equal(opened.result.status, "viewer_open");
     assert.match(opened.result.origin, /^http:\/\/127\.0\.0\.1:\d+$/u);
+    const landingResponse = await globalThis.fetch(opened.result.origin);
+    assert.equal(landingResponse.status, 200);
+    assert.match(await landingResponse.text(), /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/u);
+    const faviconResponse = await globalThis.fetch(`${opened.result.origin}/favicon.svg`);
+    assert.equal(faviconResponse.status, 200);
+    assert.equal(faviconResponse.headers.get("content-type"), "image/svg+xml");
+    assert.match(await faviconResponse.text(), /^<svg\b/u);
     const ended = runNode(
       [
         installedCli,
