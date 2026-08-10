@@ -8,12 +8,12 @@ description: Create an interactive, evidence-linked browser Walkthrough of one c
 After explicit invocation, explain the current project through a focused Walkthrough and the local `wmtc` Viewer. Keep natural conversation primary. Use only the public `wmtc` command surface for the interactive session.
 
 The machine-readable compatibility declaration is in `compatibility.json`. Use
-skill version `0.1.2` only with `wmtc` version `0.1.2`. Check `wmtc --version`
+skill version `0.1.3` only with `wmtc` version `0.1.3`. Check `wmtc --version`
 and `wmtc compatibility` before opening a Live Session, and pass
-`--skill-version 0.1.2` to every session command. If the runtime reports any
+`--skill-version 0.1.3` to every session command. If the runtime reports any
 other version or compatibility declaration, do not run
-`wmtc open`; stop and tell the user: `walk-me-through-code skill 0.1.2 requires
-wmtc 0.1.2, but found <version>. Install the pinned matching package.`
+`wmtc open`; stop and tell the user: `walk-me-through-code skill 0.1.3 requires
+wmtc 0.1.3, but found <version>. Install the pinned matching package.`
 
 ## Protect explanation mode
 
@@ -22,7 +22,7 @@ Enter explanation mode when this skill starts and remain in it until the Live Se
 - Never edit application source, tests, configuration, dependency files, generated project files, or Git state in explanation mode.
 - Keep Walkthrough Artifacts, response payloads, and other product state outside the project under one state root: `WMTC_STATE_DIRECTORY` when set, otherwise `~/.wmtc/`. Do not use a state root that resolves inside the explained repository.
 - Treat questions about possible future changes as explanation requests, not implementation requests.
-- On an unambiguous implementation request, run `wmtc end <session-id> --skill-version 0.1.2` before any project edit. Then leave this workflow and handle the implementation request normally.
+- On an unambiguous implementation request, run `wmtc end <session-id> --skill-version 0.1.3` before any project edit. Then leave this workflow and handle the implementation request normally.
 - If the Viewer ends the session, stop polling and do not infer permission to edit anything.
 
 ## Resolve the Walkthrough Target
@@ -88,7 +88,7 @@ Build progressive content in execution order:
 4. Add a minimal set of exact Source Excerpts with repository-relative paths, symbols, line ranges, language, SHA-256 hashes, highlights, and evidence labels.
 5. Call out meaningful risks, assumptions, error behavior, and verification gaps without turning the Walkthrough into an unsolicited code review.
 
-Validate the complete artifact through `wmtc open <walkthrough.json> --skill-version 0.1.2`.
+Validate the complete artifact through `wmtc open <walkthrough.json> --skill-version 0.1.3`.
 Private sharing is a strict user opt-in. Only when the user explicitly requests
 access from a trusted LAN or Tailnet device, append `--share private`; otherwise
 omit that option and preserve the default loopback-only Viewer. Do not infer
@@ -104,13 +104,13 @@ does not do so automatically, and retain its `sessionId`.
 
 Stay dedicated to the session:
 
-1. Run `wmtc poll <session-id> --skill-version 0.1.2` repeatedly.
+1. Run `wmtc poll <session-id> --skill-version 0.1.3` repeatedly.
 2. On `timeout`, poll again while the Live Session remains active.
-3. On `question`, immediately run `wmtc acknowledge <session-id> <event-id> --skill-version 0.1.2`.
-4. Inspect `event.mode`, the attached Context Selection, and current repository evidence. Send `wmtc progress ... --skill-version 0.1.2` when investigation takes long enough to benefit from a status update.
-5. Write one complete answer payload outside the project and send it with `wmtc reply <session-id> <response.json> --skill-version 0.1.2`. Include source references. Add a semantic Walkthrough Update only when it improves the curated explanation.
-6. If the question cannot be completed safely, send a precise structured failure with `wmtc fail ... --skill-version 0.1.2` rather than guessing.
-7. On `ended`, stop polling. Use `wmtc end <session-id> --skill-version 0.1.2` for an agent-initiated end or before an implementation transition.
+3. On `question`, immediately run `wmtc acknowledge <session-id> <event-id> --skill-version 0.1.3`.
+4. Inspect `event.mode`, the attached Context Selection, and current repository evidence. Send `wmtc progress ... --skill-version 0.1.3` when investigation takes long enough to benefit from a status update.
+5. Write one complete answer payload outside the project and send it with `wmtc reply <session-id> <response.json> --skill-version 0.1.3`. Include source references. Add a semantic Walkthrough Update only when it improves the curated explanation.
+6. If the question cannot be completed safely, send a precise structured failure with `wmtc fail ... --skill-version 0.1.3` rather than guessing.
+7. On `ended`, stop polling. Use `wmtc end <session-id> --skill-version 0.1.3` for an agent-initiated end or before an implementation transition.
 
 Every delivered question has one durable mode captured when it was queued. A later Viewer mode change applies only to future questions:
 

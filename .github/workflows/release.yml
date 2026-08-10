@@ -1,0 +1,212 @@
+name: Package release
+
+# This workflow never publishes npm or the GitHub Release. It leaves a reviewed draft.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    name: Package and attest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out the tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: Enable the pinned npm version
+        run: corepack enable
+
+      - name: Install dependencies
+        run: corepack npm ci
+
+      - name: Validate the tag and release state
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          version="$(node --input-type=module --eval \
+            'import manifest from "./package.json" with { type: "json" }; process.stdout.write(manifest.version);')"
+          tag="${GITHUB_REF_NAME}"
+
+          if [[ "${tag}" != "v${version}" ]]; then
+            echo "Tag ${tag} does not match package version ${version}." >&2
+            exit 1
+          fi
+
+          if [[ "$(git cat-file -t "${tag}")" != "tag" ]]; then
+            echo "Release tag ${tag} must be annotated." >&2
+            exit 1
+          fi
+
+          if [[ "$(git rev-list -n 1 "${tag}")" != "$(git rev-parse HEAD)" ]]; then
+            echo "Checked-out commit does not match release tag ${tag}." >&2
+            exit 1
+          fi
+
+          if [[ "$(git for-each-ref --format='%(taggername)' "refs/tags/${tag}")" != "tecto" ]]; then
+            echo "Release tag ${tag} does not use the tecto publication identity." >&2
+            exit 1
+          fi
+
+          tag_object="$(git rev-parse "${tag}^{tag}")"
+          if [[ "$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${tag_object}" \
+            --jq .verification.verified)" != "true" ]]; then
+            echo "GitHub did not verify the signature for release tag ${tag}." >&2
+            exit 1
+          fi
+
+          release_exists=false
+          if existing_release="$(gh release view "${tag}" \
+            --repo "${GITHUB_REPOSITORY}" --json isDraft --jq .isDraft 2>/dev/null)"; then
+            if [[ "${existing_release}" != "true" ]]; then
+              echo "Release ${tag} is already published and cannot be replaced." >&2
+              exit 1
+            fi
+            release_exists=true
+          fi
+
+          prerelease=false
+          if [[ "${version}" == *-* ]]; then
+            prerelease=true
+          fi
+
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+          echo "prerelease=${prerelease}" >> "${GITHUB_OUTPUT}"
+          echo "release_exists=${release_exists}" >> "${GITHUB_OUTPUT}"
+
+      - name: Run release acceptance checks
+        run: |
+          corepack npm run lint
+          corepack npm run typecheck
+          corepack npm run verify:release
+
+      - name: Build the immutable package
+        id: package
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          pack_record="${RUNNER_TEMP}/npm-pack.json"
+          corepack npm pack --ignore-scripts --json > "${pack_record}"
+          tarball="$(node --input-type=module --eval '
+            import { readFile } from "node:fs/promises";
+            import manifest from "./package.json" with { type: "json" };
+            import { packageRecordFromPackOutput } from "./scripts/npm-pack-result.mjs";
+
+            const packOutput = JSON.parse(await readFile(process.argv[1], "utf8"));
+            const packageRecord = packageRecordFromPackOutput(packOutput, manifest.name);
+            process.stdout.write(packageRecord.filename);
+          ' "${pack_record}")"
+
+          if [[ ! -f "${tarball}" ]]; then
+            echo "npm pack did not create ${tarball}." >&2
+            exit 1
+          fi
+
+          checksum="${tarball}.sha256"
+          sha256sum "${tarball}" > "${checksum}"
+
+          notes="${RUNNER_TEMP}/release-notes.md"
+          awk -v heading="## ${RELEASE_VERSION} - " '
+            index($0, heading) == 1 { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+            END { if (!found) exit 1 }
+          ' CHANGELOG.md > "${notes}"
+
+          if [[ ! -s "${notes}" ]]; then
+            echo "CHANGELOG.md has no release notes for ${RELEASE_VERSION}." >&2
+            exit 1
+          fi
+
+          echo "tarball=${tarball}" >> "${GITHUB_OUTPUT}"
+          echo "checksum=${checksum}" >> "${GITHUB_OUTPUT}"
+          echo "notes=${notes}" >> "${GITHUB_OUTPUT}"
+
+      - name: Attest the package provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: ${{ steps.package.outputs.tarball }}
+
+      - name: Verify the package attestation
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TARBALL: ${{ steps.package.outputs.tarball }}
+        run: gh attestation verify "${RELEASE_TARBALL}" --repo "${GITHUB_REPOSITORY}"
+
+      - name: Create or resume the draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_CHECKSUM: ${{ steps.package.outputs.checksum }}
+          RELEASE_EXISTS: ${{ steps.release.outputs.release_exists }}
+          RELEASE_NOTES: ${{ steps.package.outputs.notes }}
+          RELEASE_PRERELEASE: ${{ steps.release.outputs.prerelease }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          RELEASE_TARBALL: ${{ steps.package.outputs.tarball }}
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          set -euo pipefail
+
+          if [[ "${RELEASE_EXISTS}" == "true" ]]; then
+            release_edit_arguments=(
+              "${RELEASE_TAG}"
+              --draft=true
+              --notes-file "${RELEASE_NOTES}"
+              --repo "${GITHUB_REPOSITORY}"
+              --title "Walk Me Through the Code ${RELEASE_VERSION}"
+            )
+            if [[ "${RELEASE_PRERELEASE}" == "true" ]]; then
+              release_edit_arguments+=(--prerelease=true)
+            else
+              release_edit_arguments+=(--prerelease=false)
+            fi
+
+            gh release edit "${release_edit_arguments[@]}"
+            gh release upload "${RELEASE_TAG}" "${RELEASE_TARBALL}" "${RELEASE_CHECKSUM}" \
+              --clobber --repo "${GITHUB_REPOSITORY}"
+            exit 0
+          fi
+
+          release_arguments=(
+            "${RELEASE_TAG}"
+            "${RELEASE_TARBALL}"
+            "${RELEASE_CHECKSUM}"
+            --draft
+            --notes-file "${RELEASE_NOTES}"
+            --repo "${GITHUB_REPOSITORY}"
+            --title "Walk Me Through the Code ${RELEASE_VERSION}"
+            --verify-tag
+          )
+          if [[ "${RELEASE_PRERELEASE}" == "true" ]]; then
+            release_arguments+=(--prerelease)
+          fi
+
+          gh release create "${release_arguments[@]}"

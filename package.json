@@ -1,6 +1,6 @@
 {
   "name": "@hypertectonic/walk-me-through-the-code",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Interactive local code walkthroughs with source-linked explanations and agent-guided follow-up",
   "license": "MIT",
   "keywords": [
@@ -70,7 +70,7 @@
     "fsevents": false
   },
   "dependencies": {
-    "@walk-me-through-code/contracts": "0.1.2",
+    "@walk-me-through-code/contracts": "0.1.3",
     "zod": "4.4.3"
   },
   "bundleDependencies": [

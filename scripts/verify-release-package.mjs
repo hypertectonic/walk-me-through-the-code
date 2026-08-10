@@ -57,7 +57,7 @@ const expectedFiles = [
   "README.md",
 ];
 const expectedDependencies = {
-  "@walk-me-through-code/contracts": "0.1.2",
+  "@walk-me-through-code/contracts": "0.1.3",
   zod: "4.4.3",
 };
 const expectedDevDependencies = {
@@ -195,7 +195,7 @@ async function stopInstalledViewer(child) {
 }
 
 assert.equal(packageJson.name, "@hypertectonic/walk-me-through-the-code");
-assert.equal(packageJson.version, "0.1.2");
+assert.equal(packageJson.version, "0.1.3");
 assert.equal(
   packageJson.description,
   "Interactive local code walkthroughs with source-linked explanations and agent-guided follow-up",
@@ -276,8 +276,8 @@ assert.deepEqual(compatibility.supportedRuntimeVersions, [packageJson.version]);
 assert.match(skillInstructions, /Use only when the user explicitly invokes or names/u);
 assert.doesNotMatch(skillInstructions, /walk through, explain, trace, understand/u);
 assert.match(codexSkillMetadata, /allow_implicit_invocation: false/u);
-assert.match(cliSource, /const VERSION = "0\.1\.2";/u);
-assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.2"\] as const;/u);
+assert.match(cliSource, /const VERSION = "0\.1\.3";/u);
+assert.match(cliSource, /const SUPPORTED_SKILL_VERSIONS = \["0\.1\.3"\] as const;/u);
 
 const temporaryRoot = await mkdtemp(join(tmpdir(), "wmtc-public-package-"));
 try {
