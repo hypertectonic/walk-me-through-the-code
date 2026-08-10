@@ -94,10 +94,12 @@ jobs:
             prerelease=true
           fi
 
-          echo "version=${version}" >> "${GITHUB_OUTPUT}"
-          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
-          echo "prerelease=${prerelease}" >> "${GITHUB_OUTPUT}"
-          echo "release_exists=${release_exists}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "version=${version}"
+            echo "tag=${tag}"
+            echo "prerelease=${prerelease}"
+            echo "release_exists=${release_exists}"
+          } >> "${GITHUB_OUTPUT}"
 
       - name: Run release acceptance checks
         run: |
@@ -146,9 +148,11 @@ jobs:
             exit 1
           fi
 
-          echo "tarball=${tarball}" >> "${GITHUB_OUTPUT}"
-          echo "checksum=${checksum}" >> "${GITHUB_OUTPUT}"
-          echo "notes=${notes}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "tarball=${tarball}"
+            echo "checksum=${checksum}"
+            echo "notes=${notes}"
+          } >> "${GITHUB_OUTPUT}"
 
       - name: Attest the package provenance
         uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
