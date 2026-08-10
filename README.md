@@ -99,7 +99,7 @@ upgrading.
 For a Walkthrough Artifact you already have, open it directly with:
 
 ```sh
-wmtc open path/to/walkthrough.json --skill-version 0.1.3-rc.1
+wmtc open path/to/walkthrough.json --skill-version 0.1.3
 ```
 
 ## Installation
@@ -116,7 +116,7 @@ wmtc open path/to/walkthrough.json --skill-version 0.1.3-rc.1
 For the shortest installation path, install the published package:
 
 ```sh
-corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.2
+corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.3
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -138,7 +138,7 @@ node -e "const [major, minor] = process.versions.node.split('.').map(Number); if
 corepack npm --version
 corepack npm ci
 corepack npm pack
-corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.3-rc.1.tgz
+corepack npm install --global ./hypertectonic-walk-me-through-the-code-0.1.3.tgz
 wmtc --version
 wmtc compatibility
 wmtc skill install --host codex
@@ -184,7 +184,7 @@ that policy before sharing sensitive source.
 - Codex, Claude Code, or OpenCode
 - A local browser for the Viewer
 
-Runtime `0.1.3-rc.1` supports skill version `0.1.3-rc.1` only. Keep the
+Runtime `0.1.3` supports skill version `0.1.3` only. Keep the
 runtime and skill versions paired.
 
 ## Updating and troubleshooting
@@ -192,7 +192,7 @@ runtime and skill versions paired.
 For a newer source release, check out that release and repeat `corepack npm ci`,
 `corepack npm pack`, and the exact tarball installation. Then run `wmtc compatibility`
 and repeat the concrete install and verify commands for your host. Version
-0.1.3-rc.1 deliberately does not overwrite an existing skill, including an older
+0.1.3 deliberately does not overwrite an existing skill, including an older
 managed installation. If it reports `SKILL_OUTDATED`, preserve the destination
 and follow the newer release's migration instructions.
 

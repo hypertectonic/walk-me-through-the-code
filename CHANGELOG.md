@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.3-rc.1 - 2026-08-10
+## 0.1.3 - 2026-08-10
 
 - Make npm installation the primary documented installation route.
 - Add SHA-256 checksums and verifiable GitHub build provenance to release

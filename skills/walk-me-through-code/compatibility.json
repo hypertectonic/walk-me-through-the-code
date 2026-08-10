@@ -1,5 +1,5 @@
 {
   "schemaVersion": 1,
-  "skillVersion": "0.1.3-rc.1",
-  "supportedRuntimeVersions": ["0.1.3-rc.1"]
+  "skillVersion": "0.1.3",
+  "supportedRuntimeVersions": ["0.1.3"]
 }
