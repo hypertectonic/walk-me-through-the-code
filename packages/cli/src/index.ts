@@ -47,8 +47,8 @@ import {
   type SessionStore,
 } from "./session/index.js";
 
-const VERSION = "0.1.2";
-const SUPPORTED_SKILL_VERSIONS = ["0.1.2"] as const;
+const VERSION = "0.1.3-rc.1";
+const SUPPORTED_SKILL_VERSIONS = ["0.1.3-rc.1"] as const;
 const LOOPBACK_HOST = "127.0.0.1";
 const PRIVATE_NETWORK_HOST = "0.0.0.0";
 const SESSION_COOKIE = "wmtc_session";
