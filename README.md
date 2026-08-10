@@ -12,6 +12,16 @@ a local browser Viewer. You can move through the behavior step by step, inspect
 the exact source behind each claim, and keep asking questions from inside the
 walkthrough.
 
+## Who is it for?
+
+Walk Me Through the Code is for developers who want to quickly understand an
+unfamiliar codebase, investigate a specific part of the code, or get a clear
+explanation of how a feature works. It is also for people who are not
+developers but want to learn how to read code and understand how software works
+while building their own projects with coding agents. You do not need to
+understand the whole codebase first. Start with the part that matters, follow
+the explanation, and ask questions as you go.
+
 It is useful when you are:
 
 - joining an unfamiliar codebase
@@ -124,6 +134,18 @@ wmtc skill verify --host codex
 ```
 
 Choose exactly one supported host value: `codex`, `claude-code`, or `opencode`.
+
+Do not use `sudo`. If npm reports that its global prefix is not writable,
+configure a user-level prefix and retry the installation:
+
+```sh
+mkdir -p "$HOME/.local"
+corepack npm config set prefix "$HOME/.local"
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Add the `export` line to your shell's startup file so `wmtc` remains available
+in new terminals.
 
 ### Install from a source checkout
 

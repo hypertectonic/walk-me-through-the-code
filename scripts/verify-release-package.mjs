@@ -74,6 +74,7 @@ const requiredPackageFiles = [
   "assets/walk-me-through-the-code-banner.svg",
   "packages/cli/dist/index.js",
   "packages/viewer/dist/index.html",
+  "packages/viewer/dist/favicon.svg",
   "skills/walk-me-through-code/SKILL.md",
   "skills/walk-me-through-code/compatibility.json",
   "skills/walk-me-through-code/agents/openai.yaml",
@@ -492,6 +493,13 @@ try {
     assert.equal(opened.result.ok, true);
     assert.equal(opened.result.status, "viewer_open");
     assert.match(opened.result.origin, /^http:\/\/127\.0\.0\.1:\d+$/u);
+    const landingResponse = await globalThis.fetch(opened.result.origin);
+    assert.equal(landingResponse.status, 200);
+    assert.match(await landingResponse.text(), /<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml" \/>/u);
+    const faviconResponse = await globalThis.fetch(`${opened.result.origin}/favicon.svg`);
+    assert.equal(faviconResponse.status, 200);
+    assert.equal(faviconResponse.headers.get("content-type"), "image/svg+xml");
+    assert.match(await faviconResponse.text(), /^<svg\b/u);
     const ended = runNode(
       [
         installedCli,
