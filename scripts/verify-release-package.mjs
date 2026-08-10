@@ -49,7 +49,7 @@ const expectedScripts = {
 const expectedFiles = [
   "LICENSE",
   "THIRD_PARTY_NOTICES.md",
-  "assets/walk-me-through-the-code-banner.webp",
+  "assets/walk-me-through-the-code-banner.svg",
   "packages/cli/dist/*.js",
   "packages/cli/dist/session/*.js",
   "packages/viewer/dist",
@@ -71,7 +71,7 @@ const requiredPackageFiles = [
   "LICENSE",
   "THIRD_PARTY_NOTICES.md",
   "README.md",
-  "assets/walk-me-through-the-code-banner.webp",
+  "assets/walk-me-through-the-code-banner.svg",
   "packages/cli/dist/index.js",
   "packages/viewer/dist/index.html",
   "skills/walk-me-through-code/SKILL.md",

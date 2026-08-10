@@ -1,6 +1,6 @@
 # Walk Me Through the Code
 
-![Walk Me Through the Code: source code becoming an interactive walkthrough](assets/walk-me-through-the-code-banner.webp)
+![Walk Me Through the Code: a guided path through real code](assets/walk-me-through-the-code-banner.svg)
 
 Walk Me Through the Code helps you understand unfamiliar code without turning
 the explanation into a wall of text or static documentation.
