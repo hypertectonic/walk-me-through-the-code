@@ -10,7 +10,7 @@ or updating a registry.
 1. Identify the user's agent host before installing. The supported host values
    are `codex`, `claude-code`, and `opencode`. If the host is ambiguous, ask.
 2. Confirm that this checkout's `package.json` identifies
-   `@hypertectonic/walk-me-through-the-code` version `0.1.2`, requires Node `>=24.15.0 <25`, and pins
+   `@hypertectonic/walk-me-through-the-code` version `0.1.3-rc.1`, requires Node `>=24.15.0 <25`, and pins
    npm `12.0.2` through `packageManager`.
 3. Run `node --version` and `corepack npm --version`, then verify both requirements.
    Stop with a clear explanation if either does not match.
@@ -20,8 +20,8 @@ or updating a registry.
    tarball path reported by `corepack npm pack`.
 6. Install that exact generated tarball with `corepack npm install --global <tarball>`.
    Do not substitute the Git URL or an unpacked checkout path.
-7. Run `wmtc --version` and require `0.1.2`. Run `wmtc compatibility` and
-   require runtime `0.1.2` with supported skill version `0.1.2`.
+7. Run `wmtc --version` and require `0.1.3-rc.1`. Run `wmtc compatibility` and
+   require runtime `0.1.3-rc.1` with supported skill version `0.1.3-rc.1`.
 8. Run `wmtc skill install --host <chosen-host>`, using the literal host value
    selected in step 1. Then run `wmtc skill verify --host <chosen-host>`.
 9. If either skill command reports an unmanaged, modified, outdated, symlinked,
