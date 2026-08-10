@@ -105,10 +105,10 @@ Use `observed`, `test-fixture`, `illustrative`, or `inferred` as the evidence la
 
 ## Public `wmtc` workflow
 
-Use skill version `0.1.3-rc.1` with runtime version `0.1.3-rc.1`. Run all commands with the selected project as the working directory so repository identity remains consistent.
+Use skill version `0.1.3` with runtime version `0.1.3`. Run all commands with the selected project as the working directory so repository identity remains consistent.
 
 1. Check `wmtc --version` and `wmtc compatibility`.
-2. Start `wmtc open <walkthrough.json> --skill-version 0.1.3-rc.1` as a managed
+2. Start `wmtc open <walkthrough.json> --skill-version 0.1.3` as a managed
    long-running process. This default command must remain loopback-only. Only
    when the user explicitly requests access from a trusted LAN or Tailnet
    device, append `--share private`. Never infer that opt-in from available
@@ -117,7 +117,7 @@ Use skill version `0.1.3-rc.1` with runtime version `0.1.3-rc.1`. Run all comman
    `origins`. Retain `origin` as the loopback recovery URL. For an explicitly
    private session, capture `origins` and surface the appropriate printed LAN or
    Tailnet URL or URLs to the user.
-3. Poll with `wmtc poll <session-id> --skill-version 0.1.3-rc.1` until it reports `question`, `timeout`, or `ended`. A question result includes the mode captured when the Viewer queued it:
+3. Poll with `wmtc poll <session-id> --skill-version 0.1.3` until it reports `question`, `timeout`, or `ended`. A question result includes the mode captured when the Viewer queued it:
 
    ```json
    {
@@ -136,11 +136,11 @@ Use skill version `0.1.3-rc.1` with runtime version `0.1.3-rc.1`. Run all comman
    ```
 
    Treat `analyze` as a request for a direct source-backed explanation. Treat `learn` as a request for source-backed tutoring. The mode belongs to this question and does not change if the Viewer later switches modes.
-4. Acknowledge a delivered question with `wmtc acknowledge <session-id> <event-id> --skill-version 0.1.3-rc.1` before investigating it.
-5. Optionally report progress with `wmtc progress <session-id> <event-id> <status.json> --skill-version 0.1.3-rc.1`.
-6. Send one complete answer with `wmtc reply <session-id> <response.json> --skill-version 0.1.3-rc.1` or a terminal error with `wmtc fail <session-id> <event-id> <error.json> --skill-version 0.1.3-rc.1`.
-7. If an answer's semantic update has only a revision mismatch, preserve its operation set, update only `expectedRevision`, and use `wmtc retry-update <session-id> <update.json> --skill-version 0.1.3-rc.1`.
-8. Use `wmtc end <session-id> --skill-version 0.1.3-rc.1` to end the session. Treat repeated end, acknowledgement, answer, or failure results as successful when the existing payload matches.
+4. Acknowledge a delivered question with `wmtc acknowledge <session-id> <event-id> --skill-version 0.1.3` before investigating it.
+5. Optionally report progress with `wmtc progress <session-id> <event-id> <status.json> --skill-version 0.1.3`.
+6. Send one complete answer with `wmtc reply <session-id> <response.json> --skill-version 0.1.3` or a terminal error with `wmtc fail <session-id> <event-id> <error.json> --skill-version 0.1.3`.
+7. If an answer's semantic update has only a revision mismatch, preserve its operation set, update only `expectedRevision`, and use `wmtc retry-update <session-id> <update.json> --skill-version 0.1.3`.
+8. Use `wmtc end <session-id> --skill-version 0.1.3` to end the session. Treat repeated end, acknowledgement, answer, or failure results as successful when the existing payload matches.
 
 Never shell-encode long structured content as command arguments. Write JSON
 payload files under the same `<state-root>/` and pass their paths.
@@ -298,4 +298,4 @@ These are complete schema-valid examples of all five operation shapes:
 
 Operations run in array order against the result of the preceding operation. Refer only to IDs that exist at that point. A single invalid operation rejects the complete operation set.
 
-If `wmtc reply` reports only `revision_mismatch`, copy the original nested `walkthroughUpdate` to a standalone JSON file, change only `expectedRevision` to the reported `currentRevision`, and run `wmtc retry-update <session-id> <update.json> --skill-version 0.1.3-rc.1`. Keep `schemaVersion`, `id`, `eventId`, and the complete `operations` array byte-for-byte equivalent as JSON values. Do not resend or alter the answer payload. Do not retry a non-revision validation failure.
+If `wmtc reply` reports only `revision_mismatch`, copy the original nested `walkthroughUpdate` to a standalone JSON file, change only `expectedRevision` to the reported `currentRevision`, and run `wmtc retry-update <session-id> <update.json> --skill-version 0.1.3`. Keep `schemaVersion`, `id`, `eventId`, and the complete `operations` array byte-for-byte equivalent as JSON values. Do not resend or alter the answer payload. Do not retry a non-revision validation failure.
