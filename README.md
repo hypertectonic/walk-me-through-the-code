@@ -111,7 +111,21 @@ wmtc open path/to/walkthrough.json --skill-version 0.1.2
 > my Codex, Claude Code, or OpenCode host. Follow the repository's `AGENTS.md`
 > and do not overwrite an existing skill installation.
 
-### Install from GitHub before the registry release
+### Install from npm
+
+For the shortest installation path, install the published package:
+
+```sh
+corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.2
+wmtc --version
+wmtc compatibility
+wmtc skill install --host codex
+wmtc skill verify --host codex
+```
+
+Choose exactly one supported host value: `codex`, `claude-code`, or `opencode`.
+
+### Install from a source checkout
 
 Use a source checkout and install the tarball produced by `npm pack`. Direct
 `npm install` from the Git URL is not a supported installation path.
@@ -134,21 +148,6 @@ wmtc skill verify --host codex
 Replace `codex` in the last two commands with `claude-code` or `opencode` for
 that host. Do not use `sudo`. If the global npm prefix is not writable, stop
 and configure a user-writable npm global prefix before retrying.
-
-### Install from npm
-
-The later registry route is shorter:
-
-```sh
-corepack npm install --global @hypertectonic/walk-me-through-the-code@0.1.2
-wmtc --version
-wmtc compatibility
-wmtc skill install --host codex
-wmtc skill verify --host codex
-```
-
-Again, choose exactly one supported host value: `codex`, `claude-code`, or
-`opencode`.
 
 ### Supported agent hosts
 
