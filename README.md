@@ -12,6 +12,13 @@ a local browser Viewer. You can move through the behavior step by step, inspect
 the exact source behind each claim, and keep asking questions from inside the
 walkthrough.
 
+## See it in action
+
+Move through a source-backed walkthrough, select exact code as context, and ask
+your agent a follow-up without losing your place.
+
+![Walk Me Through the Code Viewer navigating a walkthrough, selecting source code, and answering a follow-up question](assets/walk-me-through-the-code-demo.gif)
+
 ## Who is it for?
 
 Walk Me Through the Code is for developers who want to quickly understand an
