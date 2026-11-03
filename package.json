@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@walk-me-through-code/contracts": "0.1.4",
-    "zod": "4.4.3"
+    "zod": "4.6.6"
   },
   "bundleDependencies": [
     "@walk-me-through-code/contracts"
